@@ -1,0 +1,42 @@
+import React from 'react';
+import Widget from './widget.tsx';
+import {Icolumn} from "./interface.tsx"
+
+const colors = {
+red: 'bg-red-500',
+orange: 'bg-orange-500',
+yellow: 'bg-yellow-500',
+green: 'bg-green-500'
+} as const
+interface ColumnProps {
+  index:number;
+  column:IColumn;
+  onDragOver: (e: React.DragEvent) => void;
+  onDrop: (e: React.DragEvent, columnId: string) => void;
+  onDragStart: (widget: IWidget, sourceColumnId: string) => void;
+}
+export default function Column({ key, column, onDragOver, onDrop, onDragStart}: ColumnProps){
+  const color = colors[column.color as keyof typeof colors] || 'bg-gray-500'
+
+  return (
+    <div 
+      className='w-full h-full  border-l-1 border-r-1'
+      onDragOver={onDragOver}
+      onDrop={(e)=> onDrop(e, id)}
+    >
+      <div className={` text-center py-4 text-2xl w-full ${color}`} >
+      <h2>{column.name} </h2>
+      </div>
+      <div className="flex h-full px-2 flex-col items-center justify-start">
+        {column.devices.map((widget, key) =>(
+        <Widget 
+            widget={widget} 
+            key={key}
+            onDragStart={(w) => onDragStart(w, index)}
+          />
+        )
+        )}
+      </div>
+      </div>
+  )
+}
