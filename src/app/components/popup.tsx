@@ -52,12 +52,11 @@ const {onUpdateWidget, onAddCode, onChangeCode, onDeleteCode } = context || {};
   }
 
   
-  function handleChangeCode(code):void{
-    setNewCode(code)
-  }
+
 
   function handleSubmitCodeChange():void{
     if (newCode !== "" &&  oldCode !== ""){
+      console.log("changing code", newCode, oldCode)
       changeCode(newCode,oldCode)
       toggleCodeMenu("")
     }
@@ -94,8 +93,8 @@ const {onUpdateWidget, onAddCode, onChangeCode, onDeleteCode } = context || {};
           codes: {widget.codes.map((code, key)=>(<div className="pb-2 flex gap-x-3 justify-between w-full" key={key}>
             <span className="pr-4 flex justify-center items-center ">{code}</span>
             <div>
-            <button className="p-1 rounded-[10px] mx-4   border-gray-200 border-1 hover:border-gray-400 hover:bg-gray-400/20" onClick={(code)=>toggleCodeMenu(code)}>Change</button>
-            <button className="rounded h-8 w-8 p-1 border-1 border-red-500 hover:border-red-700 hover:bg-red-500/10" onClick={deleteCode}>-</button>
+            <button className="p-1 rounded mx-4   border-gray-200 border-1 hover:border-gray-400 hover:bg-gray-400/20" onClick={()=>toggleCodeMenu(code)}>Change</button>
+            <button className="rounded h-8 w-8 p-1 border-1 border-red-500 hover:border-red-700 hover:bg-red-500/10" onClick={()=>deleteCode(code)}>-</button>
           </div>
           </div>))}
           <button className="rounded h-8 hover:bg-green-500/20 border-1 border-green-400 hover:border-green-600" onClick={()=>toggleCodeMenu("")}>Add Code</button>
@@ -103,7 +102,7 @@ const {onUpdateWidget, onAddCode, onChangeCode, onDeleteCode } = context || {};
             <div onClick={()=>toggleCodeMenu("")} className="fixed bg-black/30 inset-0 flex justify-center items-center ">
               <div className="bg-gray-800 border-gray-600 flex flex-col gap-y-4 border rounded p-2 w-[300px] " onClick={(e)=>{e.stopPropagation()}}>
                 <span>Enter New Code</span>
-                <input type="text" className="bg-white pl-2 text-black" onChange={handleChangeCode}/>
+                <input type="text" className="bg-white pl-2 text-black" onChange={(e)=> setNewCode(e.target.value)}/>
                 <button className=" border border-gray-500 hover:text-black hover:bg-gray-300 transition-all " type="submit" onClick={handleSubmitCodeChange}>Save</button>
               </div>
             </div>
@@ -132,7 +131,7 @@ const {onUpdateWidget, onAddCode, onChangeCode, onDeleteCode } = context || {};
               disabled={widget.mode === "AUTO" ? true : false}
             />
             <button
-              className={`rounded h-8 px-4 ${widget.mode === "AUTO" ? "bg-blue-400" : "bg-yellow-400"}`}
+              className={`rounded h-8 px-4 ${widget.mode === "AUTO" ? "text-white bg-blue-400" : "text-black bg-yellow-400"}`}
               onClick={()=>changeMode(widget.mode)}
             >
               {widget.mode || "AUTO"}

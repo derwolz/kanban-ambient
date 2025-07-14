@@ -23,7 +23,6 @@ export default function Kanban({
   const popupProps = {
     closePopup: () => {},
     onUpdateWidget: (targetWidget: IWidget, updates: Partial<IWidget>) => { 
-      console.log('onUpdateWidget')
       setColumns(prev => 
         prev.map(column => ({
           ...column,
@@ -44,8 +43,8 @@ export default function Kanban({
             widget === targetWidget 
               ? { 
                 ...widget, 
-                codes: (widget as ILock).codes.filter((code, index) => 
-                  index !== pos
+                codes: (widget as ILock).codes.filter((code) => 
+                  code !== oldCode
                 )
               }
               : widget
@@ -55,6 +54,7 @@ export default function Kanban({
     },
 
     onAddCode: (targetWidget: IWidget, newCode: string) => { 
+      console.log("newCode", newCode)
       setColumns(prev => 
         prev.map(column => ({
           ...column,
